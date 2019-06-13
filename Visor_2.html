@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8 />
+
+	<!--Se titula el trabajo-->
+	<title>Densidad de población de España 2018</title>
+
+<!--Se añaden los directorios de los archivos de Leaflet, para visualizar el mapa-->
+	<script src='http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet-src.js'></script>
+	<link href='http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css' rel='stylesheet' />
+
+<!--Se añade la capa geoJson convertida en javascript-->
+	<script type="text/javascript" src="js/provincias84.js"></script>
+
+<!--Se añade el estilo que van a tener los elementos del mapa-->
+	<style>
+
+	#map {
+align-items: center;
+		 height: 500px;
+		}
+	.info { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; }
+	.legend { text-align: left; line-height: 18px; color: #555; } .legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }
+	</style>
+</head>
+
+
+
+<body>
+
+<!--Identificador de la pagina "mapa"-->
+
+	<div id='map'></div>
+	<script>
+
+//Se situa en el mundo el area de interés (donde existen datos)
+	var map = L.map('map').setView([40,-2], 5);
+
+//Se añade el tile o el mapa base de OpenStreetMaps
+	var osmLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap<\/a> contributors'
+	}).addTo(map);
+
+//Se introduce una serie de funciones interactivas en el mapa
+	var info = L.control();
+
+		info.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info');
+			this.update();
+			return this._div;
+		};
+
+//Se genera el apartado donde iran cambiando los datos elegidos
+		info.update = function (props) {
+			this._div.innerHTML = '<h4>Densidad de población de España</h4>' +  (props ?
+				'<b>' + props.Texto + '</b><br />' + props.dens + ' hab/km<sup>2</sup>'
+				: 'Sitúese sobre una provincia');
+			};
+		info.addTo(map);
+
+//Se definen los colores que van a tener cada una de las categorias
+	function getColor(d) {
+	return d > 500 ? '#BD0026' :
+	d > 250 ? '#E31A1C' :
+	d > 100 ? '#FC4E2A' :
+	d > 50 ? '#FD8D3C' :
+	d > 25 ? '#FEB24C' :
+	d > 10 ? '#FED976' :
+	'#FFEDA0';
+	}
+//Se añaden los colores a los atributos de densidad a la capa
+// y se añade un separador entre las provincias
+	function style(feature) {
+		return {
+				fillColor: getColor(
+							feature.properties.dens),
+				weight: 1,
+				opacity: 1,
+				color: 'white',
+				dashArray:"2",
+				fillOpacity: 0.7
+			};
+	}
+
+//Las provincias sobre las que se situe el ratón se resaltara
+	function highlightFeature(e) {
+		var layer = e.target;
+
+//El estilo del resalteado. Se remarcan los bordes y casi se mantiene la opacidad
+		layer.setStyle({
+			weight: 2,
+			color: '#777',
+			dashArray: '',
+			fillOpacity: 0.65
+		});
+//
+		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+			layer.bringToFront();
+		}
+
+//
+		info.update(layer.feature.properties);
+	}
+
+//Se supone que si se mueve el ratón a otra provincia
+// con esto se deberia eliminar el resalteado de la anterior
+// sobre la que se ha asentado
+	function resetHighlight(e) {
+		geojson.resetStyle(e.target);
+		info.update();
+	}
+
+//Cuando se hace click sobre una provincia se hace
+// zoom a la superficie de esta
+	function zoomToFeature(e) {
+		map.fitBounds(e.target.getBounds());
+	}
+
+//La funcion que engloba las anteriores funciones
+// asi se añade despues en la visualizacion del mapa
+	function onEachFeature(feature, layer) {
+		layer.on({
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+			click: zoomToFeature
+		});
+	}
+
+//Se visualizan tanto los estilos como las funciones anteriormente descritas
+L.geoJson(provincias84, {
+		style: style,
+		onEachFeature: onEachFeature
+	}).addTo(map);
+
+
+//Se añade al pie del mapa la fuente de los datos expuestos
+	map.attributionControl.addAttribution('Datos de población &copy; <a href="http://ine.es/">Instituto Nacional de Estadística</a>');
+
+//Se añade la leyenda abajo a la derecha
+	var legend = L.control({position: 'bottomright'});
+
+	legend.onAdd = function (map) {
+
+//Se diferencian las distintas clases
+		var div = L.DomUtil.create('div', 'info legend'),
+			grades = [0, 10, 25, 50, 100, 250, 500],
+			labels = [],
+			from, to;
+
+//Una iteración para crear la leyenda con los valores de la lista anterior
+		for (var i = 0; i < grades.length; i++) {
+			from = grades[i];
+			to = grades[i + 1];
+
+//
+			labels.push(
+				'<i style="background:' + getColor(from + 1) + '"></i> ' +
+				from + (to ? '&ndash;' + to : '+'));
+		}
+
+		div.innerHTML = labels.join('<br>');
+		return div;
+	};
+//Se añade la leyenda al mapa
+	legend.addTo(map);
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Interesante</title>
+    <style>
+      #playlist {
+        list-style: none;
+      }
+      #playlist li a{
+        color:black;
+        text-decoration: none;
+      }
+      #playlist .current-song a{
+        color:blue;
+      }
+      #centrar {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body id="opciones">
+    <!--Se añade el marco de la prediccion del tiempo en zaragoza-->
+    <p>
+      <div id="centrar">
+      <script type="text/javascript" src="http://www.aemet.es/es/eltiempo/prediccion/municipios/launchwidget/zaragoza-id50297?w=g4p01110001ohmffffffw640z190x4f86d9t95b6e9r1s8n2"></script><noscript><a
+target="_blank" style="font-weight: bold;font-size: 1.20em;" href="http://www.aemet.es/es/eltiempo/prediccion/municipios/zaragoza-id50297">El Tiempo. Consulte la predicción de la AEMET para Zaragoza</a></noscript>
+</p>
+</div>
+    <p></p>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+   <!--Mendiante una aplicacion javascript se añaden unas canciones
+    las cuales se reproduciran automaricamente al entrar a la pagina.
+    Estas se pueden cambiar haciendo click sobre la que se desea. -->
+
+    <script src="js/jquery-2.2.0.js">
+    </script>
+    <script src="js/audioPlayer.js"></script>
+    <audio src="" controls="controls" id="audioPlayer"> Su buscador no soporta HTML5,
+    disculpe las molestias</audio>
+    <ul id="playlist">
+      <li class="current-song"><a href="media/Autobus%20Magikoa%20-%20Plato%20Punk.mp3">
+          Autobus Magikoa - Plato Punk </a></li>
+      <li><a href="media/Dire%20Straits%20-%20Sultans%20Of%20Swing.mp3">Dire
+          Straits - Sultans Of Swing</a></li>
+      <li><a href="media/Etxahun%20Iruri%20-%20Agur%20Xiberoa.m4a">Etxahun
+          Iruri - Agur Xiberoa</a></li>
+      <li><a href="media/Bob%20Dylan%20-%20It%27s%20All%20Over%20Now,%20Baby%20%20Blue.ogg">Bob
+          Dylan - It's All Over Now, Baby Blue</a></li>
+      <li><a href="media/Greta%20Van%20Fleet%20-%20Black%20Smoke%20Rising.ogg">Greta
+          Van Fleet - Black Smoke Rising</a></li>
+      <li><a href="media/Pink%20Floyd%20-%20Comfortably%20Numb.mp3">Pink Floyd
+          - Comfortably Numb</a></li>
+      <li><a href="media/Queen%20-%20Bohemian%20Rhapsody.mp3">Queen - Bohemian
+          Rhapsody</a></li>
+    </ul>
+
+    <script>
+        audioPlayer();
+    </script>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div id="centrar">
+<iframe  width="560" height="315" src="https://www.youtube.com/embed/WWlDa7CA_5w" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </video>
+  </div>
+  </body>
+</html>

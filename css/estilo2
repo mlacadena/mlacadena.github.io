@@ -1,0 +1,26 @@
+table {
+  border-top-width: 0pt;
+  border-right-width: 0pt;
+  border-bottom-width: 0pt;
+  border-left-width: 0pt;
+  border-top-style: none;
+  border-bottom-style: none;
+  border-left-style: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#titulo {
+  font-family: "Arial";
+  font-size: 24px;
+  text-align: center;
+  color: navy;
+}
+
+#linea {
+	width: 60%;
+	height: 3px;
+	color: navy;
+	margin-left: auto;
+	margin-right: auto;"
+}
