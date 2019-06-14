@@ -7,11 +7,14 @@
   <body>
 
     <p><!-- enlace a código CSS de Leaflet-->
-      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.0/dist/leaflet.css"
-        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.0/dist/leaflet.css"
+
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+
         crossorigin="">
       <!-- enlace a JavaScript de Leaflet -->
-      <script src="https://unpkg.com/leaflet@1.5.0/dist/leaflet.js" integrity="sha512-3Wcxp7F9bV2pl+MBgrL6Pz7AJASLpemmQPIiPA0lDs3ImF0z4JuuMIBPeirLbgIuhfH2gJyGWZjvm6M+Zr7L6Q=="
+      <script src="https://unpkg.com/leaflet@1.5.0/dist/leaflet.js" integrity="sha512-3Wcxp7F9bV2pl+MBgrL6Pz7AJASLpemmQPIiPA0lDs3ImF0z4JuuMIBPeirLbgIuhfH2gJyGWZjvm6M+Zr7L6Q=="
+
 crossorigin=""></script><br>
     </p>
     <!-- bloque dónde aparecerá el mapa -->
@@ -23,7 +26,7 @@ crossorigin=""></script><br>
    </div>
     <script>
 // Se define el mapa como una variable y se ajustamos a dónde se quiere visualizar
-    var mi_mapa = L.map('bloque_mapa').setView([40, -2], 5);
+    var mi_mapa = L.map('bloque_mapa').setView([43.2, -2.2], 8);
 
 // Se añade el mapa de fondo
     L.tileLayer(
@@ -63,6 +66,13 @@ var PNOA = L.tileLayer.wms('http://www.idee.es/wms/PNOA/PNOA?', {  //URL WMS
       });
   PNOA.addTo(mi_mapa);         // añadir capa al mapa
 
+  var RIOS = L.tileLayer.wms('http://www.geo.euskadi.net/WMS_URA?', {  //URL WMS
+        layers: 'inundabilidad_inundabilidad_CAPV_500',          // capa del WMS
+        format: 'image/png',     // tipo de formato
+        transparent: true,       // activa capa alfa/transparente
+        });
+    RIOS.addTo(mi_mapa);         // añadir capa al mapa
+
 
       //Se crean las variables y la posicion que tendran en
       // el control de mapas,
@@ -71,14 +81,21 @@ var baseMaps = {                  // variable con apartado de mapas base
     "Stamen": stamen_tms, // elemento a incluir y descripción
     "TopoMap":OpenTopoMap,
     };
+    
 var overlayMaps = {              // apartado de capas
-    "Ortotfoto PNOA": PNOA       // elemento a incluir y descripción
+    "Ortotfoto PNOA": PNOA, 
+    "Rios de Euskadi": RIOS      // elemento a incluir y descripción
     };
+    
 var capas = L.control.layers(   // variable con control de capas
   baseMaps,                     // añadiendo capas base
   overlayMaps,                  // añadiendo capas
   {collapsed:true});            // control NO desplegado
 capas.addTo(mi_mapa);           // añadimos control de capas al mapa
+
+
+
+
 var escala = L.control.scale()
  escala.addTo(mi_mapa);
 
