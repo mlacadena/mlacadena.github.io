@@ -3,8 +3,10 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>Visor_1</title>
+    <link rel="stylesheet" type="text/css" href="css/estilo4.css">
   </head>
-  <body>
+  <body id="opciones">
+    <p id="titulo">Mapa de inundabilidad en el Pais Vasco</p>
 
     <p><!-- enlace a código CSS de Leaflet-->
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.0/dist/leaflet.css"
@@ -78,8 +80,8 @@ var PNOA = L.tileLayer.wms('http://www.idee.es/wms/PNOA/PNOA?', {  //URL WMS
       // el control de mapas,
 
 var baseMaps = {                  // variable con apartado de mapas base
-    "Stamen": stamen_tms, // elemento a incluir y descripción
-    "TopoMap":OpenTopoMap,
+    "Red de carreteras": stamen_tms, // elemento a incluir y descripción
+    "Mapa topografico":OpenTopoMap,
     };
     
 var overlayMaps = {              // apartado de capas
